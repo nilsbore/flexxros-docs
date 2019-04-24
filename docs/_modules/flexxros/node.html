@@ -1,0 +1,350 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>flexxros.node &mdash; flexxros 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> flexxros
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../flexxros.html">flexxros</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">flexxros</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>flexxros.node</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for flexxros.node</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">flexx</span> <span class="k">import</span> <span class="n">flx</span>
+<span class="kn">import</span> <span class="nn">rospy</span>
+<span class="kn">from</span> <span class="nn">.external.rospy_message_converter.src.rospy_message_converter</span> <span class="k">import</span> <span class="n">message_converter</span>
+<span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">tornado.platform.asyncio</span> <span class="k">as</span> <span class="nn">torasync</span>
+<span class="kn">from</span> <span class="nn">flexxros.internal</span> <span class="k">import</span> <span class="n">ROSPublisher</span><span class="p">,</span> <span class="n">ROSSubscriber</span><span class="p">,</span> <span class="n">ROSActionClient</span><span class="p">,</span> <span class="n">ROSDynReconfig</span>
+
+<div class="viewcode-block" id="ROSNode"><a class="viewcode-back" href="../../node.html#flexxros.node.ROSNode">[docs]</a><span class="k">class</span> <span class="nc">ROSNode</span><span class="p">(</span><span class="n">flx</span><span class="o">.</span><span class="n">PyComponent</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A PyComponent interface that the root node in the interface must always inherit from</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">publishers</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">action_clients</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">reconfig_clients</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">subscribers</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="nd">@flx</span><span class="o">.</span><span class="n">action</span>
+    <span class="k">def</span> <span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">,</span> <span class="n">topic_type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Subscribe to a topic</span>
+
+<span class="sd">        :param topic: the ROS topic name</span>
+<span class="sd">        :param topic_type: the ROS message type in form of string, e.g. &#39;std_msgs/Float32&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">subscribers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ROSSubscriber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">,</span> <span class="n">topic_type</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Could not subscribe to&quot;</span><span class="p">,</span> <span class="n">topic</span><span class="p">,</span> <span class="s2">&quot;, as&quot;</span><span class="p">,</span> <span class="n">topic_type</span><span class="p">,</span> <span class="s2">&quot;not recognized as type&quot;</span><span class="p">)</span>
+
+    <span class="nd">@flx</span><span class="o">.</span><span class="n">action</span>
+    <span class="k">def</span> <span class="nf">announce_publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">,</span> <span class="n">topic_type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Announce publisher, must be called before publish</span>
+
+<span class="sd">        :param topic: the ROS topic name</span>
+<span class="sd">        :param topic_type: the ROS message type in form of string, e.g. &#39;std_msgs/Float32&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">publishers</span><span class="p">[</span><span class="n">topic</span><span class="p">]</span> <span class="o">=</span> <span class="n">ROSPublisher</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">topic_type</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Could not announce&quot;</span><span class="p">,</span> <span class="n">topic</span><span class="p">,</span> <span class="s2">&quot;, as&quot;</span><span class="p">,</span> <span class="n">topic_type</span><span class="p">,</span> <span class="s2">&quot;not recognized as type&quot;</span><span class="p">)</span>
+
+    <span class="nd">@flx</span><span class="o">.</span><span class="n">action</span>
+    <span class="k">def</span> <span class="nf">announce_action_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server_name</span><span class="p">,</span> <span class="n">server_type</span><span class="p">):</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">action_clients</span><span class="p">[</span><span class="n">server_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">ROSActionClient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server_name</span><span class="p">,</span> <span class="n">server_type</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Could not announce client&quot;</span><span class="p">,</span> <span class="n">server_name</span><span class="p">,</span> <span class="s2">&quot;, as&quot;</span><span class="p">,</span> <span class="n">server_type</span><span class="p">,</span> <span class="s2">&quot;not recognized as type&quot;</span><span class="p">)</span>
+
+    <span class="nd">@flx</span><span class="o">.</span><span class="n">action</span>
+    <span class="k">def</span> <span class="nf">announce_reconfig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server_name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reconfig_clients</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ROSDynReconfig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server_name</span><span class="p">))</span>
+
+    <span class="nd">@flx</span><span class="o">.</span><span class="n">action</span>
+    <span class="k">def</span> <span class="nf">set_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server_name</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reconfig_clients</span><span class="p">[</span><span class="n">server_name</span><span class="p">]</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">update_configuration</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="nd">@flx</span><span class="o">.</span><span class="n">action</span>
+    <span class="k">def</span> <span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Publish a message to a topic, must call announce_publish before this</span>
+
+<span class="sd">        :param topic: the ROS topic name</span>
+<span class="sd">        :param data: a dictionary version of message, e.g. {data: 0.32}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">pub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">publishers</span><span class="p">[</span><span class="n">topic</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Could not publish&quot;</span><span class="p">,</span> <span class="n">topic</span><span class="p">,</span> <span class="s2">&quot;as it is not announced, please call announce_publish before&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">message_converter</span><span class="o">.</span><span class="n">convert_dictionary_to_ros_message</span><span class="p">(</span><span class="n">pub</span><span class="o">.</span><span class="n">topic_type</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="n">pub</span><span class="o">.</span><span class="n">pub</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+    <span class="nd">@flx</span><span class="o">.</span><span class="n">action</span>
+    <span class="k">def</span> <span class="nf">send_action_goal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server_name</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">action_clients</span><span class="p">[</span><span class="n">server_name</span><span class="p">]</span><span class="o">.</span><span class="n">send_goal</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Could not call&quot;</span><span class="p">,</span> <span class="n">server_name</span><span class="p">,</span> <span class="s2">&quot;as it is not announced, please call announce_action_client before&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ROSNode.init"><a class="viewcode-back" href="../../node.html#flexxros.node.ROSNode.init">[docs]</a>    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div></div>
+
+<div class="viewcode-block" id="ROSWidget"><a class="viewcode-back" href="../../node.html#flexxros.node.ROSWidget">[docs]</a><span class="k">class</span> <span class="nc">ROSWidget</span><span class="p">(</span><span class="n">flx</span><span class="o">.</span><span class="n">Widget</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    flx.Widget subclass that a widget can inherit from for easy access to ros functionality</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@flx</span><span class="o">.</span><span class="n">action</span>
+    <span class="k">def</span> <span class="nf">announce_publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">,</span> <span class="n">topic_type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Announce publisher, must be called before publish</span>
+
+<span class="sd">        :param topic: the ROS topic name</span>
+<span class="sd">        :param topic_type: the ROS message type in form of string, e.g. &#39;std_msgs/Float32&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">announce_publish</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">topic_type</span><span class="p">)</span>
+
+    <span class="nd">@flx</span><span class="o">.</span><span class="n">action</span>
+    <span class="k">def</span> <span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Publish a message to a topic, must call announce_publish before this</span>
+
+<span class="sd">        :param topic: the ROS topic name</span>
+<span class="sd">        :param data: a dictionary version of message, e.g. {data: 0.32}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+    <span class="nd">@flx</span><span class="o">.</span><span class="n">action</span>
+    <span class="k">def</span> <span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">,</span> <span class="n">topic_type</span><span class="p">,</span> <span class="n">cb</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Subscribe to a topic</span>
+
+<span class="sd">        :param topic: the ROS topic name</span>
+<span class="sd">        :param topic_type: the ROS message type in form of string, e.g. &#39;std_msgs/Float32&#39;</span>
+<span class="sd">        :param cb: a callback handle, must be a method of a subclass of ROSWidget</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">topic_type</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reaction</span><span class="p">(</span><span class="n">cb</span><span class="p">,</span> <span class="s2">&quot;!root.&quot;</span><span class="o">+</span><span class="n">topic</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">))</span></div>
+
+<span class="c1"># Start server in its own thread</span>
+<div class="viewcode-block" id="start_flexx"><a class="viewcode-back" href="../../node.html#flexxros.node.start_flexx">[docs]</a><span class="k">def</span> <span class="nf">start_flexx</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Used by init_and_spin to launch flexx</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">flx</span><span class="o">.</span><span class="n">create_server</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">asyncio</span><span class="o">.</span><span class="n">new_event_loop</span><span class="p">())</span>
+    <span class="n">flx</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="init_and_spin"><a class="viewcode-back" href="../../node.html#flexxros.node.init_and_spin">[docs]</a><span class="k">def</span> <span class="nf">init_and_spin</span><span class="p">(</span><span class="n">node_name</span><span class="p">,</span> <span class="n">app_type</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The main way of starting your flexxros app </span>
+
+<span class="sd">    :param node_name: the ROS node name</span>
+<span class="sd">    :param app_type: the root widget, must inherit from ROSNode</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="n">node_name</span><span class="p">,</span> <span class="n">anonymous</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">set_event_loop_policy</span><span class="p">(</span><span class="n">torasync</span><span class="o">.</span><span class="n">AnyThreadEventLoopPolicy</span><span class="p">())</span>
+
+    <span class="c1"># Create component in main thread</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">flx</span><span class="o">.</span><span class="n">App</span><span class="p">(</span><span class="n">app_type</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">serve</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+    <span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">start_flexx</span><span class="p">)</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="n">rospy</span><span class="o">.</span><span class="n">spin</span><span class="p">()</span>
+
+    <span class="n">flx</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Nils Bore
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

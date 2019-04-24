@@ -1,0 +1,401 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>node &mdash; flexxros 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="widgets" href="widgets.html" />
+    <link rel="prev" title="flexxros" href="flexxros.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> flexxros
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="flexxros.html">flexxros</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widgets.html">widgets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sam_widgets.html">sam_widgets</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">flexxros</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="flexxros.html">flexxros</a> &raquo;</li>
+        
+      <li>node</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/node.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-flexxros.node">
+<span id="node"></span><h1>node<a class="headerlink" href="#module-flexxros.node" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="flexxros.node.ROSNode">
+<em class="property">class </em><code class="descclassname">flexxros.node.</code><code class="descname">ROSNode</code><span class="sig-paren">(</span><em>*init_args</em>, <em>**property_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flexxros/node.html#ROSNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#flexxros.node.ROSNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>A PyComponent interface that the root node in the interface must always inherit from</p>
+<dl class="attribute">
+<dt id="flexxros.node.ROSNode.CSS">
+<code class="descname">CSS</code><em class="property"> = ''</em><a class="headerlink" href="#flexxros.node.ROSNode.CSS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="flexxros.node.ROSNode.JS">
+<code class="descname">JS</code><a class="headerlink" href="#flexxros.node.ROSNode.JS" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#flexxros.node.ROSNode" title="flexxros.node.ROSNode"><code class="xref py py-class docutils literal notranslate"><span class="pre">ROSNode</span></code></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="flexxros.node.ROSNode.action_clients">
+<code class="descname">action_clients</code><em class="property"> = {}</em><a class="headerlink" href="#flexxros.node.ROSNode.action_clients" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="flexxros.node.ROSNode.announce_action_client">
+<code class="descname">announce_action_client</code><a class="headerlink" href="#flexxros.node.ROSNode.announce_action_client" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>action</em> – announce_action_client</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="flexxros.node.ROSNode.announce_publish">
+<code class="descname">announce_publish</code><a class="headerlink" href="#flexxros.node.ROSNode.announce_publish" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>action</em> – Announce publisher, must be called before publish</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>topic</strong> – the ROS topic name</p></li>
+<li><p><strong>topic_type</strong> – the ROS message type in form of string, e.g. ‘std_msgs/Float32’</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="flexxros.node.ROSNode.announce_reconfig">
+<code class="descname">announce_reconfig</code><a class="headerlink" href="#flexxros.node.ROSNode.announce_reconfig" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>action</em> – announce_reconfig</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="flexxros.node.ROSNode.init">
+<code class="descname">init</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/flexxros/node.html#ROSNode.init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#flexxros.node.ROSNode.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializer method. This method can be overloaded when
+creating a custom class. It is called with this component as a
+context manager (i.e. it is the active component), and it receives
+any positional arguments that were passed to the constructor.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="flexxros.node.ROSNode.publish">
+<code class="descname">publish</code><a class="headerlink" href="#flexxros.node.ROSNode.publish" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>action</em> – Publish a message to a topic, must call announce_publish before this</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>topic</strong> – the ROS topic name</p></li>
+<li><p><strong>data</strong> – a dictionary version of message, e.g. {data: 0.32}</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="flexxros.node.ROSNode.publishers">
+<code class="descname">publishers</code><em class="property"> = {}</em><a class="headerlink" href="#flexxros.node.ROSNode.publishers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="flexxros.node.ROSNode.reconfig_clients">
+<code class="descname">reconfig_clients</code><em class="property"> = []</em><a class="headerlink" href="#flexxros.node.ROSNode.reconfig_clients" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="flexxros.node.ROSNode.send_action_goal">
+<code class="descname">send_action_goal</code><a class="headerlink" href="#flexxros.node.ROSNode.send_action_goal" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>action</em> – send_action_goal</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="flexxros.node.ROSNode.set_config">
+<code class="descname">set_config</code><a class="headerlink" href="#flexxros.node.ROSNode.set_config" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>action</em> – set_config</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="flexxros.node.ROSNode.subscribe">
+<code class="descname">subscribe</code><a class="headerlink" href="#flexxros.node.ROSNode.subscribe" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>action</em> – Subscribe to a topic</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>topic</strong> – the ROS topic name</p></li>
+<li><p><strong>topic_type</strong> – the ROS message type in form of string, e.g. ‘std_msgs/Float32’</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="flexxros.node.ROSNode.subscribers">
+<code class="descname">subscribers</code><em class="property"> = []</em><a class="headerlink" href="#flexxros.node.ROSNode.subscribers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="flexxros.node.ROSWidget">
+<em class="property">class </em><code class="descclassname">flexxros.node.</code><code class="descname">ROSWidget</code><span class="sig-paren">(</span><em>*init_args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flexxros/node.html#ROSWidget"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#flexxros.node.ROSWidget" title="Permalink to this definition">¶</a></dt>
+<dd><p>flx.Widget subclass that a widget can inherit from for easy access to ros functionality</p>
+<dl class="attribute">
+<dt id="flexxros.node.ROSWidget.CSS">
+<code class="descname">CSS</code><em class="property"> = ''</em><a class="headerlink" href="#flexxros.node.ROSWidget.CSS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="flexxros.node.ROSWidget.JS">
+<code class="descname">JS</code><a class="headerlink" href="#flexxros.node.ROSWidget.JS" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#flexxros.node.ROSWidget" title="flexxros.node.ROSWidget"><code class="xref py py-class docutils literal notranslate"><span class="pre">ROSWidget</span></code></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="flexxros.node.ROSWidget.announce_publish">
+<code class="descname">announce_publish</code><span class="sig-paren">(</span><em>topic</em>, <em>topic_type</em><span class="sig-paren">)</span><a class="headerlink" href="#flexxros.node.ROSWidget.announce_publish" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>action</em> – Announce publisher, must be called before publish</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>topic</strong> – the ROS topic name</p></li>
+<li><p><strong>topic_type</strong> – the ROS message type in form of string, e.g. ‘std_msgs/Float32’</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="flexxros.node.ROSWidget.publish">
+<code class="descname">publish</code><span class="sig-paren">(</span><em>topic</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#flexxros.node.ROSWidget.publish" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>action</em> – Publish a message to a topic, must call announce_publish before this</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>topic</strong> – the ROS topic name</p></li>
+<li><p><strong>data</strong> – a dictionary version of message, e.g. {data: 0.32}</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="flexxros.node.ROSWidget.subscribe">
+<code class="descname">subscribe</code><span class="sig-paren">(</span><em>topic</em>, <em>topic_type</em>, <em>cb</em><span class="sig-paren">)</span><a class="headerlink" href="#flexxros.node.ROSWidget.subscribe" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>action</em> – Subscribe to a topic</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>topic</strong> – the ROS topic name</p></li>
+<li><p><strong>topic_type</strong> – the ROS message type in form of string, e.g. ‘std_msgs/Float32’</p></li>
+<li><p><strong>cb</strong> – a callback handle, must be a method of a subclass of ROSWidget</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="flexxros.node.init_and_spin">
+<code class="descclassname">flexxros.node.</code><code class="descname">init_and_spin</code><span class="sig-paren">(</span><em>node_name</em>, <em>app_type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flexxros/node.html#init_and_spin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#flexxros.node.init_and_spin" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main way of starting your flexxros app</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_name</strong> – the ROS node name</p></li>
+<li><p><strong>app_type</strong> – the root widget, must inherit from ROSNode</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="flexxros.node.start_flexx">
+<code class="descclassname">flexxros.node.</code><code class="descname">start_flexx</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/flexxros/node.html#start_flexx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#flexxros.node.start_flexx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used by init_and_spin to launch flexx</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="widgets.html" class="btn btn-neutral float-right" title="widgets" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="flexxros.html" class="btn btn-neutral float-left" title="flexxros" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Nils Bore
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
