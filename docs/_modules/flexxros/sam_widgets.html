@@ -143,7 +143,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for flexxros.sam_widgets</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">flexx</span> <span class="k">import</span> <span class="n">flx</span>
+<span class="kn">from</span> <span class="nn">flexx</span> <span class="k">import</span> <span class="n">flx</span>
 <span class="kn">from</span> <span class="nn">flexxros.node</span> <span class="k">import</span> <span class="n">ROSWidget</span>
 <span class="kn">from</span> <span class="nn">flexxros.widgets</span> <span class="k">import</span> <span class="n">ROSTopicPlotter</span><span class="p">,</span> <span class="n">ROSDynReconfigWidget</span><span class="p">,</span> <span class="n">ROSActionClientWidget</span>
 
@@ -246,18 +246,27 @@
         <span class="k">with</span> <span class="n">flx</span><span class="o">.</span><span class="n">VBox</span><span class="p">(</span><span class="n">flex</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">minsize</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;background: #9d9;&quot;</span><span class="p">):</span>
             <span class="n">lcg_actuator</span> <span class="o">=</span> <span class="n">ActuatorBox</span><span class="p">(</span><span class="s2">&quot;Pitch - LCG&quot;</span><span class="p">,</span> <span class="s2">&quot;sam_msgs/PercentStamped&quot;</span><span class="p">,</span>
                                        <span class="s2">&quot;/uavcan_lcg_command&quot;</span><span class="p">,</span> <span class="s2">&quot;/uavcan_to_ros_bridge_node/lcg_feedback&quot;</span><span class="p">,</span>
-                                       <span class="s2">&quot;/LCG_pid/pid_enable&quot;</span><span class="p">,</span> <span class="s2">&quot;/pitch_setpoint&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.6</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">)</span>
+                                       <span class="s2">&quot;/LCG_trim/pid_enable&quot;</span><span class="p">,</span> <span class="s2">&quot;/pitch_setpoint&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.6</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">)</span>
             <span class="n">vbs_actuator</span> <span class="o">=</span> <span class="n">ActuatorBox</span><span class="p">(</span><span class="s2">&quot;Depth - VBS&quot;</span><span class="p">,</span> <span class="s2">&quot;sam_msgs/PercentStamped&quot;</span><span class="p">,</span>
                                        <span class="s2">&quot;/uavcan_vbs_command&quot;</span><span class="p">,</span> <span class="s2">&quot;/uavcan_to_ros_bridge_node/vbs_feedback&quot;</span><span class="p">,</span>
-                                       <span class="s2">&quot;/VBS_pid/pid_enable&quot;</span><span class="p">,</span> <span class="s2">&quot;/depth_setpoint&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+                                       <span class="s2">&quot;/VBS_depth/pid_enable&quot;</span><span class="p">,</span> <span class="s2">&quot;/depth_setpoint&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
             <span class="n">tcg_actuator</span> <span class="o">=</span> <span class="n">ActuatorBox</span><span class="p">(</span><span class="s2">&quot;Roll - TCG&quot;</span><span class="p">,</span> <span class="s2">&quot;sam_msgs/BallastAngles&quot;</span><span class="p">,</span>
                                        <span class="s2">&quot;/ros_to_uavcan_bridge_node/tcg_command1&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
                                        <span class="s2">&quot;/TCG_pid/pid_enable&quot;</span><span class="p">,</span> <span class="s2">&quot;/roll_setpoint&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.6</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">leak_button</span> <span class="o">=</span> <span class="n">flx</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;No leaks...&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;background: #008000;&quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
             <span class="n">flx</span><span class="o">.</span><span class="n">Widget</span><span class="p">(</span><span class="n">flex</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">startup_check</span> <span class="o">=</span> <span class="n">ROSActionClientWidget</span><span class="p">(</span><span class="s2">&quot;/sam_startup_check&quot;</span><span class="p">,</span> <span class="s2">&quot;sam_msgs/SystemsCheck&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">abort_button</span> <span class="o">=</span> <span class="n">flx</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Abort&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;background: #ff6961;&quot;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;/uavcan_leak&quot;</span><span class="p">,</span> <span class="s2">&quot;sam_msgs/Leak&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">leak_button</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s2">&quot;Leaking!&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">leak_button</span><span class="o">.</span><span class="n">apply_style</span><span class="p">(</span><span class="s2">&quot;background: #ff6961;&quot;</span><span class="p">)</span>
 
     <span class="nd">@flx</span><span class="o">.</span><span class="n">reaction</span><span class="p">(</span><span class="s1">&#39;abort_button.pointer_click&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">_publish_abort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">events</span><span class="p">):</span>

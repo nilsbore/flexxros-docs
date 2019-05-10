@@ -1,6 +1,10 @@
 sam_widgets
 ===========
 
+The contents of this module is specialized widgets for a particular
+ROS-based robot. One might use them as examples for building
+interfaces for other robots.
+
 .. automodule:: flexxros.sam_widgets
      :members:
      :undoc-members:

@@ -143,7 +143,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for flexx.app._component2</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Implementation of the app Component classes (LocalComponent,</span>
 <span class="sd">ProxyComponent, StubComponent), which form the basis for the</span>
 <span class="sd">PyComponent and JsComponent classes (and their proxies).</span>
@@ -185,8 +185,8 @@
     <span class="k">def</span> <span class="nf">flx_proxy_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_action</span><span class="p">(</span><span class="n">flx_name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span>
-    <span class="n">flx_proxy_action</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="vm">__doc__</span>
-    <span class="n">flx_proxy_action</span><span class="o">.</span><span class="vm">__qualname__</span> <span class="o">=</span> <span class="s1">&#39;flx_proxy_action&#39;</span>
+    <span class="n">flx_proxy_action</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">__doc__</span>
+    <span class="n">flx_proxy_action</span><span class="o">.</span><span class="n">__qualname__</span> <span class="o">=</span> <span class="s1">&#39;flx_proxy_action&#39;</span>
     <span class="k">return</span> <span class="n">flx_proxy_action</span>  <span class="c1"># ActionDescriptor(flx_proxy_action, flx_name, &#39;&#39;)</span>
 
 
@@ -196,8 +196,8 @@
     <span class="n">flx_name</span> <span class="o">=</span> <span class="n">emitter</span><span class="o">.</span><span class="n">_name</span>
     <span class="k">def</span> <span class="nf">flx_proxy_emitter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_proxy_emitter</span><span class="p">(</span><span class="n">flx_name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
-    <span class="n">flx_proxy_emitter</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">emitter</span><span class="o">.</span><span class="vm">__doc__</span>
-    <span class="n">flx_proxy_emitter</span><span class="o">.</span><span class="vm">__qualname__</span> <span class="o">=</span> <span class="s1">&#39;flx_proxy_emitter&#39;</span>
+    <span class="n">flx_proxy_emitter</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">emitter</span><span class="o">.</span><span class="n">__doc__</span>
+    <span class="n">flx_proxy_emitter</span><span class="o">.</span><span class="n">__qualname__</span> <span class="o">=</span> <span class="s1">&#39;flx_proxy_emitter&#39;</span>
     <span class="k">return</span> <span class="n">flx_proxy_emitter</span>  <span class="c1"># EmitterDescriptor(flx_proxy_emitter, flx_name, &#39;&#39;)</span>
 
 
@@ -207,20 +207,20 @@
     <span class="k">return</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">AppComponentMeta</span><span class="o">.</span><span class="n">CLASSES</span><span class="p">]</span>
 
 
-<span class="k">def</span> <span class="nf">meta_repr</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">meta_repr</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; A repr function to provide some context on the purpose of a class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">PyComponent</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">PyComponent</span><span class="p">):</span>
         <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;PyComponent class&#39;</span>
-    <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">PyComponent</span><span class="o">.</span><span class="n">JS</span><span class="p">):</span>
+    <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">PyComponent</span><span class="o">.</span><span class="n">JS</span><span class="p">):</span>
         <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;proxy PyComponent class for JS &#39;</span>
-    <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">JsComponent</span><span class="p">):</span>
+    <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">JsComponent</span><span class="p">):</span>
         <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;proxy JsComponent class&#39;</span>
-    <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">JsComponent</span><span class="o">.</span><span class="n">JS</span><span class="p">):</span>
+    <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">JsComponent</span><span class="o">.</span><span class="n">JS</span><span class="p">):</span>
         <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;JsComponent class for JS&#39;</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;class&#39;</span>
-    <span class="k">return</span> <span class="s2">&quot;&lt;</span><span class="si">%s</span><span class="s2"> &#39;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">&#39;&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;&lt;</span><span class="si">%s</span><span class="s2"> &#39;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">&#39;&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">__module__</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">LocalProperty</span><span class="p">(</span><span class="n">Property</span><span class="p">):</span>
@@ -237,11 +237,11 @@
 <span class="sd">    Proxy PyComponent and local JsComponents.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="fm">__repr__</span> <span class="o">=</span> <span class="n">meta_repr</span>
+    <span class="n">__repr__</span> <span class="o">=</span> <span class="n">meta_repr</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span> <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">name</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">AppComponentMeta</span><span class="p">(</span><span class="n">ComponentMeta</span><span class="p">):</span>
@@ -252,9 +252,9 @@
     <span class="c1"># Keep track of all subclasses</span>
     <span class="n">CLASSES</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="fm">__repr__</span> <span class="o">=</span> <span class="n">meta_repr</span>
+    <span class="n">__repr__</span> <span class="o">=</span> <span class="n">meta_repr</span>
 
-    <span class="k">def</span> <span class="nf">_init_hook1</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cls_name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dct</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_init_hook1</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">cls_name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dct</span><span class="p">):</span>
 
         <span class="c1"># cls is the class to be</span>
         <span class="c1"># cls.__dict__ is its current dict, which may contain inherited items</span>
@@ -264,51 +264,51 @@
         <span class="n">CSS</span> <span class="o">=</span> <span class="n">dct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;CSS&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
 
         <span class="c1"># Create corresponding class for JS</span>
-        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">LocalComponent</span><span class="p">):</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">_make_js_proxy_class</span><span class="p">(</span><span class="n">cls_name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dct</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">ProxyComponent</span><span class="p">):</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">_make_js_local_class</span><span class="p">(</span><span class="n">cls_name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dct</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">LocalComponent</span><span class="p">):</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">_make_js_proxy_class</span><span class="p">(</span><span class="n">cls_name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dct</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">ProxyComponent</span><span class="p">):</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">_make_js_local_class</span><span class="p">(</span><span class="n">cls_name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dct</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Expected class to inherit from &#39;</span>
                             <span class="s1">&#39;LocalComponent or ProxyComponent.&#39;</span><span class="p">)</span>
 
         <span class="c1"># Write __jsmodule__; an optimization for our module/asset system</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">__jsmodule__</span> <span class="o">=</span> <span class="n">get_mod_name</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__module__</span><span class="p">])</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">JS</span><span class="o">.</span><span class="n">__jsmodule__</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__jsmodule__</span>  <span class="c1"># need it in JS too</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">JS</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__module__</span>
+        <span class="n">cls</span><span class="o">.</span><span class="n">__jsmodule__</span> <span class="o">=</span> <span class="n">get_mod_name</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">__module__</span><span class="p">])</span>
+        <span class="n">cls</span><span class="o">.</span><span class="n">JS</span><span class="o">.</span><span class="n">__jsmodule__</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__jsmodule__</span>  <span class="c1"># need it in JS too</span>
+        <span class="n">cls</span><span class="o">.</span><span class="n">JS</span><span class="o">.</span><span class="n">__module__</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__module__</span>
 
         <span class="c1"># Set CSS</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">CSS</span> <span class="o">=</span> <span class="n">CSS</span>
+        <span class="n">cls</span><span class="o">.</span><span class="n">CSS</span> <span class="o">=</span> <span class="n">CSS</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="nb">delattr</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">JS</span><span class="p">,</span> <span class="s1">&#39;CSS&#39;</span><span class="p">)</span>
+            <span class="nb">delattr</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">JS</span><span class="p">,</span> <span class="s1">&#39;CSS&#39;</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">_init_hook2</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cls_name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dct</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_init_hook2</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">cls_name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dct</span><span class="p">):</span>
 
         <span class="c1"># Set __proxy_properties__ and __emitters__</span>
-        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">LocalComponent</span><span class="p">):</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">__proxy_properties__</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">JS</span><span class="o">.</span><span class="n">__properties__</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">JS</span><span class="o">.</span><span class="n">__emitters__</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__emitters__</span>
+        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">LocalComponent</span><span class="p">):</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">__proxy_properties__</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">JS</span><span class="o">.</span><span class="n">__properties__</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">JS</span><span class="o">.</span><span class="n">__emitters__</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__emitters__</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">JS</span><span class="o">.</span><span class="n">__proxy_properties__</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__properties__</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">__emitters__</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">JS</span><span class="o">.</span><span class="n">__emitters__</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">JS</span><span class="o">.</span><span class="n">__proxy_properties__</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__properties__</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">__emitters__</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">JS</span><span class="o">.</span><span class="n">__emitters__</span>
 
         <span class="c1"># Set JS on the JS class</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">JS</span><span class="o">.</span><span class="n">CODE</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get_js</span><span class="p">()</span>
+        <span class="n">cls</span><span class="o">.</span><span class="n">JS</span><span class="o">.</span><span class="n">CODE</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_get_js</span><span class="p">()</span>
 
         <span class="c1"># Register this class. The classes in this list will be automatically</span>
         <span class="c1"># &quot;pushed to JS&quot; in a JIT fashion. We have to make sure that we include</span>
         <span class="c1"># the code for base classes not in this list, which we do in _get_js().</span>
-        <span class="n">AppComponentMeta</span><span class="o">.</span><span class="n">CLASSES</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="n">AppComponentMeta</span><span class="o">.</span><span class="n">CLASSES</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_make_js_proxy_class</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cls_name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dct</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_make_js_proxy_class</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">cls_name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dct</span><span class="p">):</span>
 
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">ProxyComponent</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">ProxyComponent</span><span class="p">)</span>
 
         <span class="c1"># Fix inheritance for JS variant</span>
-        <span class="n">jsbases</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s1">&#39;JS&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__bases__</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s1">&#39;JS&#39;</span><span class="p">)]</span>
+        <span class="n">jsbases</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s1">&#39;JS&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">__bases__</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s1">&#39;JS&#39;</span><span class="p">)]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">jsbases</span><span class="p">:</span>
             <span class="n">jsbases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ProxyComponent</span><span class="p">)</span>
         <span class="n">jsdict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -330,15 +330,15 @@
                 <span class="k">pass</span>  <span class="c1"># no reactions/functions/class attributes on the proxy side</span>
 
         <span class="c1"># Create JS class</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">JS</span> <span class="o">=</span> <span class="n">ComponentMetaJS</span><span class="p">(</span><span class="n">cls_name</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">jsbases</span><span class="p">),</span> <span class="n">jsdict</span><span class="p">)</span>
+        <span class="n">cls</span><span class="o">.</span><span class="n">JS</span> <span class="o">=</span> <span class="n">ComponentMetaJS</span><span class="p">(</span><span class="n">cls_name</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">jsbases</span><span class="p">),</span> <span class="n">jsdict</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_make_js_local_class</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cls_name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dct</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_make_js_local_class</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">cls_name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dct</span><span class="p">):</span>
 
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">LocalComponent</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">LocalComponent</span><span class="p">)</span>
 
         <span class="c1"># Fix inheritance for JS variant</span>
-        <span class="n">jsbases</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s1">&#39;JS&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__bases__</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s1">&#39;JS&#39;</span><span class="p">)]</span>
+        <span class="n">jsbases</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s1">&#39;JS&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">__bases__</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s1">&#39;JS&#39;</span><span class="p">)]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">jsbases</span><span class="p">:</span>
             <span class="n">jsbases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">LocalComponent</span><span class="p">)</span>
         <span class="n">jsdict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -360,45 +360,45 @@
                   <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;_validate&#39;</span><span class="p">))):</span>
                 <span class="n">jsdict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>  <span class="c1"># properties are the same</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">LocalProperty</span><span class="p">):</span>
-                    <span class="nb">delattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+                    <span class="nb">delattr</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
                     <span class="n">dct</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">EmitterDescriptor</span><span class="p">):</span>
                 <span class="c1"># JS part gets the proper emitter, Py side gets a proxy</span>
                 <span class="n">jsdict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">make_proxy_emitter</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">make_proxy_emitter</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">ActionDescriptor</span><span class="p">):</span>
                 <span class="c1"># JS part gets the proper action, Py side gets a proxy</span>
                 <span class="n">jsdict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">make_proxy_action</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">make_proxy_action</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># Move attribute from the Py class to the JS class</span>
                 <span class="n">jsdict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
-                <span class="nb">delattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+                <span class="nb">delattr</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
                 <span class="n">dct</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># is this necessary?</span>
 
         <span class="c1"># Create JS class</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">JS</span> <span class="o">=</span> <span class="n">ComponentMetaJS</span><span class="p">(</span><span class="n">cls_name</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">jsbases</span><span class="p">),</span> <span class="n">jsdict</span><span class="p">)</span>
+        <span class="n">cls</span><span class="o">.</span><span class="n">JS</span> <span class="o">=</span> <span class="n">ComponentMetaJS</span><span class="p">(</span><span class="n">cls_name</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">jsbases</span><span class="p">),</span> <span class="n">jsdict</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_js</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_get_js</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Get source code for this class plus the meta info about the code.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Since classes are defined in a module, we can safely name the classes</span>
         <span class="c1"># by their plain name.</span>
-        <span class="n">cls_name</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="n">base_class</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">JS</span><span class="o">.</span><span class="n">mro</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">base_class_name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.prototype&#39;</span> <span class="o">%</span> <span class="n">base_class</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="n">cls_name</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__name__</span>
+        <span class="n">base_class</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">JS</span><span class="o">.</span><span class="n">mro</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">base_class_name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.prototype&#39;</span> <span class="o">%</span> <span class="n">base_class</span><span class="o">.</span><span class="n">__name__</span>
         <span class="n">code</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="c1"># Add this class</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">create_js_component_class</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">JS</span><span class="p">,</span> <span class="n">cls_name</span><span class="p">,</span> <span class="n">base_class_name</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">create_js_component_class</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">JS</span><span class="p">,</span> <span class="n">cls_name</span><span class="p">,</span> <span class="n">base_class_name</span><span class="p">)</span>
         <span class="n">meta</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">meta</span>
         <span class="n">code</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
         <span class="c1"># code.append(c.replace(&#39;var %s =&#39; % cls_name,</span>
         <span class="c1">#                   &#39;var %s = flexx.classes.%s =&#39; % (cls_name, cls_name), 1))</span>
 
         <span class="c1"># Add JS version of the base classes - but only once</span>
-        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;JsComponent&#39;</span><span class="p">:</span>
-            <span class="n">c</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get_js_of_base_classes</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;JsComponent&#39;</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_get_js_of_base_classes</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;vars_unknown&#39;</span><span class="p">,</span> <span class="s1">&#39;vars_global&#39;</span><span class="p">,</span> <span class="s1">&#39;std_functions&#39;</span><span class="p">,</span> <span class="s1">&#39;std_methods&#39;</span><span class="p">]:</span>
                 <span class="n">meta</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
             <span class="n">code</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
@@ -408,7 +408,7 @@
         <span class="n">js</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">meta</span>
         <span class="k">return</span> <span class="n">js</span>
 
-    <span class="k">def</span> <span class="nf">_get_js_of_base_classes</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_get_js_of_base_classes</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Get JS for BaseAppComponent, LocalComponent, and ProxyComponent.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">c1</span> <span class="o">=</span> <span class="n">create_js_component_class</span><span class="p">(</span><span class="n">BaseAppComponent</span><span class="p">,</span> <span class="s1">&#39;BaseAppComponent&#39;</span><span class="p">,</span>
@@ -549,7 +549,7 @@
                     <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__proxy_properties__</span><span class="p">:</span>
                         <span class="n">props</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="s1">&#39;INSTANTIATE&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__jsmodule__</span><span class="p">,</span>
-                                           <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                                           <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span>
                                            <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">,</span> <span class="p">[],</span> <span class="n">props</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_has_proxy</span> <span class="o">=</span> <span class="kc">True</span>
 
@@ -595,12 +595,12 @@
             <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">init_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
             <span class="k">if</span> <span class="s1">&#39;flx_id&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Cannot instantiate a PyComponent from JS.&#39;</span><span class="p">)</span>
-            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># This is a proxy JsComponent in Python.</span>
             <span class="c1"># Can be instantiated in Python,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_flx_init_args</span> <span class="o">=</span> <span class="n">init_args</span>
-            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_comp_init_property_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_values</span><span class="p">):</span>
 
@@ -622,7 +622,7 @@
                 <span class="n">active_components</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">loop</span><span class="o">.</span><span class="n">get_active_components</span><span class="p">()[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
                                      <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="p">(</span><span class="n">PyComponent</span><span class="p">,</span> <span class="n">JsComponent</span><span class="p">))]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="s1">&#39;INSTANTIATE&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__jsmodule__</span><span class="p">,</span>
-                                           <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">,</span>
+                                           <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">,</span>
                                            <span class="bp">self</span><span class="o">.</span><span class="n">_flx_init_args</span><span class="p">,</span> <span class="n">property_values</span><span class="p">,</span>
                                            <span class="n">active_components</span><span class="p">)</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flx_init_args</span>
@@ -723,7 +723,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="o">=</span> <span class="n">session</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="nb">id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_uid</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">id</span>
@@ -735,9 +735,9 @@
 
 <span class="c1"># LocalComponent and ProxyComponent need __jsmodule__, but they do not</span>
 <span class="c1"># participate in the AppComponentMeta class, so we add it here.</span>
-<span class="n">LocalComponent</span><span class="o">.</span><span class="n">__jsmodule__</span> <span class="o">=</span> <span class="vm">__name__</span>
-<span class="n">ProxyComponent</span><span class="o">.</span><span class="n">__jsmodule__</span> <span class="o">=</span> <span class="vm">__name__</span>
-<span class="n">StubComponent</span><span class="o">.</span><span class="n">__jsmodule__</span> <span class="o">=</span> <span class="vm">__name__</span>
+<span class="n">LocalComponent</span><span class="o">.</span><span class="n">__jsmodule__</span> <span class="o">=</span> <span class="n">__name__</span>
+<span class="n">ProxyComponent</span><span class="o">.</span><span class="n">__jsmodule__</span> <span class="o">=</span> <span class="n">__name__</span>
+<span class="n">StubComponent</span><span class="o">.</span><span class="n">__jsmodule__</span> <span class="o">=</span> <span class="n">__name__</span>
 
 
 <span class="k">class</span> <span class="nc">JsComponent</span><span class="p">(</span><span class="n">with_metaclass</span><span class="p">(</span><span class="n">AppComponentMeta</span><span class="p">,</span> <span class="n">ProxyComponent</span><span class="p">)):</span>
@@ -812,7 +812,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;flexx.app.component&#39;</span>
-    <span class="bp">cls</span> <span class="o">=</span> <span class="n">BaseAppComponent</span>  <span class="c1"># PyComponent, JsComponent, StubComponent</span>
+    <span class="n">cls</span> <span class="o">=</span> <span class="n">BaseAppComponent</span>  <span class="c1"># PyComponent, JsComponent, StubComponent</span>
 
     <span class="k">def</span> <span class="nf">match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="c1"># This is actually the default behavior, but added for completenes</span>

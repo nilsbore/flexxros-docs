@@ -153,9 +153,58 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-flexxros.node">
-<span id="node"></span><h1>node<a class="headerlink" href="#module-flexxros.node" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+  <div class="section" id="node">
+<h1>node<a class="headerlink" href="#node" title="Permalink to this headline">¶</a></h1>
+<p>The node module is the main interface with ROS. The root component
+must always inherit from the <cite>ROSNode</cite> class and client side widgets
+should generally inherit from <cite>ROSWidget</cite> to make interacting with
+the library smoother. The following example shows how one may structure
+a service client application using these techniques.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flexx</span> <span class="kn">import</span> <span class="n">flx</span><span class="p">,</span> <span class="n">config</span>
+<span class="kn">from</span> <span class="nn">flexxros</span> <span class="kn">import</span> <span class="n">node</span>
+<span class="kn">from</span> <span class="nn">flexxros.node</span> <span class="kn">import</span> <span class="n">ROSNode</span><span class="p">,</span> <span class="n">ROSWidget</span>
+<span class="kn">import</span> <span class="nn">rospy</span>
+<span class="kn">from</span> <span class="nn">std_srvs.srv</span> <span class="kn">import</span> <span class="n">SetBool</span><span class="p">,</span> <span class="n">SetBoolResponse</span>
+
+<span class="n">node_name</span> <span class="o">=</span> <span class="s2">&quot;action_example_interface&quot;</span>
+<span class="n">service_name</span> <span class="o">=</span> <span class="s2">&quot;simple_service&quot;</span>
+<span class="n">config</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span>
+<span class="n">config</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="mi">8097</span>
+
+<span class="k">class</span> <span class="nc">SimpleService</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">service</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Service</span><span class="p">(</span><span class="n">service_name</span><span class="p">,</span> <span class="n">SetBool</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_request</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">handle_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">SetBoolResponse</span><span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;flexxros!&quot;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">ServiceClientWidget</span><span class="p">(</span><span class="n">ROSWidget</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resp</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">receive_message</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">success</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">resp</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="nd">@flx.reaction</span><span class="p">(</span><span class="s2">&quot;send_message.pointer_click&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_request_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">events</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_service</span><span class="p">(</span><span class="n">service_name</span><span class="p">,</span> <span class="s2">&quot;std_srvs/SetBool&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">type_message</span><span class="o">.</span><span class="n">checked</span><span class="p">},</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">flx</span><span class="o">.</span><span class="n">FormLayout</span><span class="p">(</span><span class="n">flex</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">maxsize</span><span class="o">=</span><span class="mi">400</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">type_message</span> <span class="o">=</span> <span class="n">flx</span><span class="o">.</span><span class="n">CheckBox</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Checked?&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_message</span> <span class="o">=</span> <span class="n">flx</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Request service&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">receive_message</span> <span class="o">=</span> <span class="n">flx</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Response:&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Waiting for response...&quot;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">ServiceExampleInterface</span><span class="p">(</span><span class="n">ROSNode</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">ServiceClientWidget</span><span class="p">()</span>
+
+<span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="n">node_name</span><span class="p">,</span> <span class="n">anonymous</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">service</span> <span class="o">=</span> <span class="n">SimpleService</span><span class="p">(</span><span class="n">service_name</span><span class="p">)</span>
+<span class="n">node</span><span class="o">.</span><span class="n">spin</span><span class="p">(</span><span class="n">ServiceExampleInterface</span><span class="p">)</span>
+</pre></div>
+</div>
+<span class="target" id="module-flexxros.node"></span><dl class="class">
 <dt id="flexxros.node.ROSNode">
 <em class="property">class </em><code class="descclassname">flexxros.node.</code><code class="descname">ROSNode</code><span class="sig-paren">(</span><em>*init_args</em>, <em>**property_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flexxros/node.html#ROSNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#flexxros.node.ROSNode" title="Permalink to this definition">¶</a></dt>
 <dd><p>A PyComponent interface that the root node in the interface must always inherit from</p>
@@ -178,27 +227,62 @@
 <dl class="attribute">
 <dt id="flexxros.node.ROSNode.announce_action_client">
 <code class="descname">announce_action_client</code><a class="headerlink" href="#flexxros.node.ROSNode.announce_action_client" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>action</em> – announce_action_client</p>
+<dd><p><em>action</em> – Announce ROS action client, must be called before publish</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>server_name</strong> – the ROS action server name</li>
+<li><strong>server_type</strong> – the ROS action server type in form of string, e.g. ‘flexxros/Test’</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="flexxros.node.ROSNode.announce_publish">
 <code class="descname">announce_publish</code><a class="headerlink" href="#flexxros.node.ROSNode.announce_publish" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>action</em> – Announce publisher, must be called before publish</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>topic</strong> – the ROS topic name</p></li>
-<li><p><strong>topic_type</strong> – the ROS message type in form of string, e.g. ‘std_msgs/Float32’</p></li>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>topic</strong> – the ROS topic name</li>
+<li><strong>topic_type</strong> – the ROS message type in form of string, e.g. ‘std_msgs/Float32’</li>
 </ul>
-</dd>
-</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="flexxros.node.ROSNode.announce_reconfig">
 <code class="descname">announce_reconfig</code><a class="headerlink" href="#flexxros.node.ROSNode.announce_reconfig" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>action</em> – announce_reconfig</p>
+<dd><p><em>action</em> – Experimental</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="flexxros.node.ROSNode.call_service">
+<code class="descname">call_service</code><a class="headerlink" href="#flexxros.node.ROSNode.call_service" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>action</em> – Call a ROS service</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>server_name</strong> – the ROS service name</li>
+<li><strong>server_type</strong> – the ROS service type, e.g. std_srvs/SetBool</li>
+<li><strong>req</strong> – a dictionary version of message, e.g. {data: 0.32}</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -214,14 +298,18 @@ any positional arguments that were passed to the constructor.</p>
 <dt id="flexxros.node.ROSNode.publish">
 <code class="descname">publish</code><a class="headerlink" href="#flexxros.node.ROSNode.publish" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>action</em> – Publish a message to a topic, must call announce_publish before this</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>topic</strong> – the ROS topic name</p></li>
-<li><p><strong>data</strong> – a dictionary version of message, e.g. {data: 0.32}</p></li>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>topic</strong> – the ROS topic name</li>
+<li><strong>data</strong> – a dictionary version of message, e.g. {data: 0.32}</li>
 </ul>
-</dd>
-</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
@@ -237,32 +325,53 @@ any positional arguments that were passed to the constructor.</p>
 <dl class="attribute">
 <dt id="flexxros.node.ROSNode.send_action_goal">
 <code class="descname">send_action_goal</code><a class="headerlink" href="#flexxros.node.ROSNode.send_action_goal" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>action</em> – send_action_goal</p>
+<dd><p><em>action</em> – Send a ROS action goal, need to call announce_action_client before</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>server_name</strong> – the ROS action server name</li>
+<li><strong>msg</strong> – a dictionary version of the action goal message, e.g. {data: 0.32}</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="flexxros.node.ROSNode.service_clients">
+<code class="descname">service_clients</code><em class="property"> = {}</em><a class="headerlink" href="#flexxros.node.ROSNode.service_clients" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="flexxros.node.ROSNode.set_config">
 <code class="descname">set_config</code><a class="headerlink" href="#flexxros.node.ROSNode.set_config" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>action</em> – set_config</p>
+<dd><p><em>action</em> – Experimental</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="flexxros.node.ROSNode.subscribe">
 <code class="descname">subscribe</code><a class="headerlink" href="#flexxros.node.ROSNode.subscribe" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>action</em> – Subscribe to a topic</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>topic</strong> – the ROS topic name</p></li>
-<li><p><strong>topic_type</strong> – the ROS message type in form of string, e.g. ‘std_msgs/Float32’</p></li>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>topic</strong> – the ROS topic name</li>
+<li><strong>topic_type</strong> – the ROS message type in form of string, e.g. ‘std_msgs/Float32’</li>
 </ul>
-</dd>
-</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="flexxros.node.ROSNode.subscribers">
-<code class="descname">subscribers</code><em class="property"> = []</em><a class="headerlink" href="#flexxros.node.ROSNode.subscribers" title="Permalink to this definition">¶</a></dt>
+<code class="descname">subscribers</code><em class="property"> = {}</em><a class="headerlink" href="#flexxros.node.ROSNode.subscribers" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -283,46 +392,116 @@ any positional arguments that were passed to the constructor.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="flexxros.node.ROSWidget.announce_action_client">
+<code class="descname">announce_action_client</code><span class="sig-paren">(</span><em>topic</em>, <em>topic_type</em><span class="sig-paren">)</span><a class="headerlink" href="#flexxros.node.ROSWidget.announce_action_client" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>action</em> – Announce ROS action client, must be called before publish</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>topic</strong> – the ROS action client name</li>
+<li><strong>topic_type</strong> – the ROS action server type in form of string, e.g. ‘flexxros/Test’</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="flexxros.node.ROSWidget.announce_publish">
 <code class="descname">announce_publish</code><span class="sig-paren">(</span><em>topic</em>, <em>topic_type</em><span class="sig-paren">)</span><a class="headerlink" href="#flexxros.node.ROSWidget.announce_publish" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>action</em> – Announce publisher, must be called before publish</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>topic</strong> – the ROS topic name</p></li>
-<li><p><strong>topic_type</strong> – the ROS message type in form of string, e.g. ‘std_msgs/Float32’</p></li>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>topic</strong> – the ROS topic name</li>
+<li><strong>topic_type</strong> – the ROS message type in form of string, e.g. ‘std_msgs/Float32’</li>
 </ul>
-</dd>
-</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="flexxros.node.ROSWidget.call_service">
+<code class="descname">call_service</code><span class="sig-paren">(</span><em>server_name</em>, <em>server_type</em>, <em>req</em>, <em>cb</em><span class="sig-paren">)</span><a class="headerlink" href="#flexxros.node.ROSWidget.call_service" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>action</em> – Call a ROS service</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>server_name</strong> – the ROS service name</li>
+<li><strong>server_type</strong> – the ROS service type, e.g. std_srvs/SetBool</li>
+<li><strong>req</strong> – a dictionary version of message, e.g. {data: 0.32}</li>
+<li><strong>cb</strong> – a callback handle, must be a method of a subclass of ROSWidget that takes result as arguments</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="flexxros.node.ROSWidget.publish">
 <code class="descname">publish</code><span class="sig-paren">(</span><em>topic</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#flexxros.node.ROSWidget.publish" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>action</em> – Publish a message to a topic, must call announce_publish before this</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>topic</strong> – the ROS topic name</p></li>
-<li><p><strong>data</strong> – a dictionary version of message, e.g. {data: 0.32}</p></li>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>topic</strong> – the ROS topic name</li>
+<li><strong>data</strong> – a dictionary version of message, e.g. {data: 0.32}</li>
 </ul>
-</dd>
-</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="flexxros.node.ROSWidget.send_action_goal">
+<code class="descname">send_action_goal</code><span class="sig-paren">(</span><em>topic</em>, <em>goal</em>, <em>feedback_cb</em>, <em>done_cb</em><span class="sig-paren">)</span><a class="headerlink" href="#flexxros.node.ROSWidget.send_action_goal" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>action</em> – Send a ROS action goal, need to call announce_action_client before</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>topic</strong> – the ROS action server name</li>
+<li><strong>goal</strong> – a dictionary version of the action goal message, e.g. {data: 0.32}</li>
+<li><strong>feedback_cb</strong> – a callback handle, must be a method of a subclass of ROSWidget that takes status, and feedback as arguments</li>
+<li><strong>done_cb</strong> – a callback handle, must be a method of a subclass of ROSWidget that takes result as argument</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="flexxros.node.ROSWidget.subscribe">
 <code class="descname">subscribe</code><span class="sig-paren">(</span><em>topic</em>, <em>topic_type</em>, <em>cb</em><span class="sig-paren">)</span><a class="headerlink" href="#flexxros.node.ROSWidget.subscribe" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>action</em> – Subscribe to a topic</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>topic</strong> – the ROS topic name</p></li>
-<li><p><strong>topic_type</strong> – the ROS message type in form of string, e.g. ‘std_msgs/Float32’</p></li>
-<li><p><strong>cb</strong> – a callback handle, must be a method of a subclass of ROSWidget</p></li>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>topic</strong> – the ROS topic name</li>
+<li><strong>topic_type</strong> – the ROS message type in form of string, e.g. ‘std_msgs/Float32’</li>
+<li><strong>cb</strong> – a callback handle, must be a method of a subclass of ROSWidget</li>
 </ul>
-</dd>
-</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -331,14 +510,32 @@ any positional arguments that were passed to the constructor.</p>
 <dt id="flexxros.node.init_and_spin">
 <code class="descclassname">flexxros.node.</code><code class="descname">init_and_spin</code><span class="sig-paren">(</span><em>node_name</em>, <em>app_type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flexxros/node.html#init_and_spin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#flexxros.node.init_and_spin" title="Permalink to this definition">¶</a></dt>
 <dd><p>The main way of starting your flexxros app</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>node_name</strong> – the ROS node name</p></li>
-<li><p><strong>app_type</strong> – the root widget, must inherit from ROSNode</p></li>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>node_name</strong> – the ROS node name</li>
+<li><strong>app_type</strong> – the root widget, must inherit from ROSNode</li>
 </ul>
-</dd>
-</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="flexxros.node.spin">
+<code class="descclassname">flexxros.node.</code><code class="descname">spin</code><span class="sig-paren">(</span><em>app_type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flexxros/node.html#spin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#flexxros.node.spin" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main way of starting your flexxros app</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>app_type</strong> – the root widget, must inherit from ROSNode</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">

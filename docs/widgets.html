@@ -153,9 +153,53 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-flexxros.widgets">
-<span id="widgets"></span><h1>widgets<a class="headerlink" href="#module-flexxros.widgets" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+  <div class="section" id="widgets">
+<h1>widgets<a class="headerlink" href="#widgets" title="Permalink to this headline">¶</a></h1>
+<p>This module contains useful widgets than can be used for larger applications.
+In the following example, we use the action client widget to present an
+interface similar to the default <cite>axclient.py</cite> program.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flexx</span> <span class="kn">import</span> <span class="n">config</span>
+<span class="kn">from</span> <span class="nn">flexxros</span> <span class="kn">import</span> <span class="n">node</span>
+<span class="kn">from</span> <span class="nn">flexxros.node</span> <span class="kn">import</span> <span class="n">ROSNode</span>
+<span class="kn">from</span> <span class="nn">flexxros.widgets</span> <span class="kn">import</span> <span class="n">ROSActionClientWidget</span>
+<span class="kn">from</span> <span class="nn">flexxros.msg</span> <span class="kn">import</span> <span class="n">TestAction</span><span class="p">,</span> <span class="n">TestFeedback</span><span class="p">,</span> <span class="n">TestResult</span>
+<span class="kn">import</span> <span class="nn">rospy</span>
+<span class="kn">import</span> <span class="nn">actionlib</span>
+
+<span class="n">node_name</span> <span class="o">=</span> <span class="s2">&quot;action_example_interface&quot;</span>
+<span class="n">config</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span>
+<span class="n">config</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="mi">8097</span>
+
+<span class="k">class</span> <span class="nc">ActionServer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="n">_feedback</span> <span class="o">=</span> <span class="n">TestFeedback</span><span class="p">()</span>
+    <span class="n">_result</span> <span class="o">=</span> <span class="n">TestResult</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_as</span> <span class="o">=</span> <span class="n">actionlib</span><span class="o">.</span><span class="n">SimpleActionServer</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">TestAction</span><span class="p">,</span> <span class="n">execute_cb</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">execute_cb</span><span class="p">,</span> <span class="n">auto_start</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_as</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">execute_cb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">goal</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_feedback</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="s2">&quot;Got &quot;</span> <span class="o">+</span> <span class="n">goal</span><span class="o">.</span><span class="n">data</span> <span class="o">+</span> <span class="s2">&quot;, started running...&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_as</span><span class="o">.</span><span class="n">publish_feedback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_feedback</span><span class="p">)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_feedback</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="s2">&quot;Almost done...&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_as</span><span class="o">.</span><span class="n">publish_feedback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_feedback</span><span class="p">)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_result</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="s2">&quot;Success with &quot;</span> <span class="o">+</span> <span class="n">goal</span><span class="o">.</span><span class="n">data</span> <span class="o">+</span> <span class="s2">&quot;!&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_as</span><span class="o">.</span><span class="n">set_succeeded</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_result</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">ActionExampleInterface</span><span class="p">(</span><span class="n">ROSNode</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">ROSActionClientWidget</span><span class="p">(</span><span class="n">node_name</span><span class="p">,</span> <span class="s2">&quot;flexxros/Test&quot;</span><span class="p">)</span>
+
+<span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="n">node_name</span><span class="p">,</span> <span class="n">anonymous</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">server</span> <span class="o">=</span> <span class="n">ActionServer</span><span class="p">(</span><span class="n">node_name</span><span class="p">)</span>
+<span class="n">node</span><span class="o">.</span><span class="n">spin</span><span class="p">(</span><span class="n">ActionExampleInterface</span><span class="p">)</span>
+</pre></div>
+</div>
+<span class="target" id="module-flexxros.widgets"></span><dl class="class">
 <dt id="flexxros.widgets.ROSActionClientWidget">
 <em class="property">class </em><code class="descclassname">flexxros.widgets.</code><code class="descname">ROSActionClientWidget</code><span class="sig-paren">(</span><em>*init_args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flexxros/widgets.html#ROSActionClientWidget"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#flexxros.widgets.ROSActionClientWidget" title="Permalink to this definition">¶</a></dt>
 <dd><p>flx.Widget subclass that presents a widget similar to the normal axclient.py</p>
